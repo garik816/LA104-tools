@@ -2,7 +2,7 @@
 
 - File: 144servoprobe.elf
 - Target: LA104 + gabonator/LA104 firmware
-- Size: 6883 bytes
+- Size: 6885 bytes
 - SHA-256: 0acb84c1dda98c79fd5b65fb8303d0046a144b1c72803c3bd9cc53f32da9eb62
 - Operation: STM32 bxCAN silent mode, no transmit, no CAN ACK.
 
