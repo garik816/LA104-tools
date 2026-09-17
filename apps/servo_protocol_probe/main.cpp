@@ -110,6 +110,19 @@ const char* ProtocolName(EProtocol protocol)
     }
 }
 
+const char* ProtocolStatusName(EProtocol protocol)
+{
+    switch (protocol)
+    {
+        case ProtocolHitec: return "HITEC";
+        case ProtocolDroneCan: return "DRONECAN";
+        case ProtocolCanOpen: return "CANOPEN";
+        case ProtocolJ1939: return "J1939";
+        case ProtocolUnknown: return "UNKNOWN";
+        default: return "WAIT";
+    }
+}
+
 void Clear()
 {
     gFrames = gHitec = gDrone = gOpen = gJ1939 = gExtended = gStandard = 0;
@@ -158,6 +171,11 @@ void Draw()
         LCD::Print(8, 136, RGB565(808080), RGBTRANS, "Passive probe needs a device that emits CAN traffic.");
     LCD::Print(8, 154, RGB565(808080), RGBTRANS, "A silent servo cannot be identified without an active request.");
     DrawFrame();
+    uint16_t bar = !gOnline ? RGB565(802020) : detected == ProtocolNone ? RGB565(505050) : RGB565(206020);
+    LCD::Bar(CRect(0, 202, LCD::Width, 222), bar);
+    LCD::Printf(8, 205, RGB565(ffffff), RGBTRANS, "STATUS  %s | %s | %s | ESR %02X",
+        gOnline ? "CAN OK" : "CAN ERROR", BaudName(kBauds[gBaudIndex]), ProtocolStatusName(detected),
+        (unsigned)(gCan.ErrorStatus() & 0xff));
     LCD::Print(8, 226, RGB565(b0b0b0), RGBTRANS, "F1: baud  F3: clear  F4: auto  F2/Esc: exit");
 }
 
@@ -180,8 +198,10 @@ __attribute__((__section__(".entry")))
 int _main(void)
 {
     StartAuto(); uint32_t redraw = 0; BIOS::KEY::EKey key;
-    while ((key = KEY::GetKey()) != KEY::Escape)
+    while (true)
     {
+        key = KEY::GetKey();
+        if (key == KEY::Escape || key == KEY::F2) break;
         if (key == KEY::F1) NextBaud();
         else if (key == KEY::F3) Clear();
         else if (key == KEY::F4) StartAuto();
