@@ -1,0 +1,1 @@
+{"description":{"short":"CAN Monitor","long":"Passive CAN monitor and auto-baud"},"icon":"canmon.bmp","execute":"canmon.elf","order":20}

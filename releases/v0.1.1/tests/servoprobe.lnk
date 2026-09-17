@@ -1,0 +1,1 @@
+{"description":{"short":"Servo Protocol Probe","long":"Auto Hitec, DroneCAN, CANopen and J1939"},"icon":"servoprobe.bmp","execute":"servoprobe.elf","order":40}

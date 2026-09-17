@@ -1,0 +1,1 @@
+{"description":{"short":"I2C Sensor Test","long":"I2C scan and sensor diagnostics"},"icon":"i2ctest.bmp","execute":"i2ctest.elf","order":10}
